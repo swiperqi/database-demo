@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qiqi.demo.mapper.DemoMapper">
+    <resultMap id="result" type="com.qiqi.demo.domain.DemoDto">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+
+    <sql id="column">
+        id, name, gender, age, address
+    </sql>
+
+    <select id="getById" parameterType="java.lang.Integer" resultMap="result">
+        select
+        <include refid="column"></include>
+        from demo
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getAll" resultMap="result">
+        select
+        <include refid="column"></include>
+        from demo
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from demo
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateDemoById" parameterType="com.qiqi.demo.domain.DemoDto">
+        update demo
+        set name = #{name,jdbcType=VARCHAR},
+        gender = #{gender, jdbcType=TINYINT},
+        age = #{age, jdbcType=INTEGER},
+        address = #{address,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="insertDemo" parameterType="com.qiqi.demo.domain.DemoDto">
+        insert into demo(name, gender, age, address)
+        values(#{name,jdbcType=VARCHAR},
+        #{gender,jdbcType=TINYINT},
+        #{age, jdbcType=INTEGER},
+        #{address,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>
